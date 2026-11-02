@@ -1,0 +1,188 @@
+
+# ============================================
+# DEEP LEARNING PRACTICAL NO. 1
+# Implementation using TensorFlow, Keras,
+# PyTorch and Theano
+# ============================================
+
+import numpy as np
+
+# ============================================
+# 1. TENSORFLOW IMPLEMENTATION
+# ============================================
+
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+print("\n========== TENSORFLOW ==========")
+print("TensorFlow Version:", tf.__version__)
+
+# Sample data
+X = np.array([
+    [1, 2, 3, 4, 5],
+    [2, 3, 4, 5, 6],
+    [3, 4, 5, 6, 7],
+    [4, 5, 6, 7, 8],
+    [5, 6, 7, 8, 9],
+    [6, 7, 8, 9, 10]
+], dtype=float)
+
+y = np.array([0, 0, 0, 1, 1, 1])
+
+# Create neural network
+model = keras.Sequential([
+    keras.Input(shape=(5,)),
+    layers.Dense(10, activation="relu"),
+    layers.Dense(5, activation="relu"),
+    layers.Dense(1, activation="sigmoid")
+])
+
+# Compile
+model.compile(
+    optimizer="adam",
+    loss="binary_crossentropy",
+    metrics=["accuracy"]
+)
+
+# Train
+model.fit(X, y, epochs=10, verbose=1)
+
+# Evaluate
+loss, accuracy = model.evaluate(X, y, verbose=0)
+print("Accuracy:", accuracy)
+
+# Prediction
+prediction = model.predict(X[:1], verbose=0)
+print("Prediction:", prediction)
+
+
+# ============================================
+# 2. KERAS IMPLEMENTATION
+# ============================================
+
+import keras
+
+print("\n========== KERAS ==========")
+print("Keras Version:", keras.__version__)
+
+# Create model
+model = keras.Sequential([
+    keras.layers.Input(shape=(5,)),
+    keras.layers.Dense(10, activation="relu"),
+    keras.layers.Dense(5, activation="relu"),
+    keras.layers.Dense(1, activation="sigmoid")
+])
+
+# Compile model
+model.compile(
+    optimizer="adam",
+    loss="binary_crossentropy",
+    metrics=["accuracy"]
+)
+
+# Sample data
+X = np.array([
+    [1, 2, 3, 4, 5],
+    [2, 3, 4, 5, 6],
+    [3, 4, 5, 6, 7],
+    [4, 5, 6, 7, 8],
+    [5, 6, 7, 8, 9],
+    [6, 7, 8, 9, 10]
+], dtype=float)
+
+y = np.array([0, 0, 0, 1, 1, 1])
+
+# Train model
+model.fit(X, y, epochs=10, verbose=1)
+
+# Evaluate
+loss, accuracy = model.evaluate(X, y, verbose=0)
+print("Accuracy:", accuracy)
+
+print("Keras model executed successfully!")
+
+
+# ============================================
+# 3. PYTORCH IMPLEMENTATION
+# ============================================
+
+import torch
+import torch.nn as nn
+
+print("\n========== PYTORCH ==========")
+print("PyTorch Version:", torch.__version__)
+
+# Create neural network
+class NeuralNetwork(nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+        self.layer1 = nn.Linear(5, 10)
+        self.layer2 = nn.Linear(10, 5)
+        self.output = nn.Linear(5, 1)
+
+    def forward(self, x):
+        x = torch.relu(self.layer1(x))
+        x = torch.relu(self.layer2(x))
+        x = torch.sigmoid(self.output(x))
+        return x
+
+
+# Create model
+model = NeuralNetwork()
+
+print(model)
+
+# Sample input
+X = torch.tensor([
+    [1., 2., 3., 4., 5.],
+    [2., 3., 4., 5., 6.]
+])
+
+# Prediction
+output = model(X)
+
+print("Output:")
+print(output)
+
+print("PyTorch model executed successfully!")
+
+
+# ============================================
+# 4. THEANO IMPLEMENTATION
+# ============================================
+
+print("\n========== THEANO ==========")
+
+try:
+    import theano
+    import theano.tensor as T
+
+    print("Theano Version:", theano.__version__)
+
+    # Create symbolic variables
+    x = T.dscalar('x')
+    y = T.dscalar('y')
+
+    # Mathematical operation
+    z = x + y
+
+    # Compile function
+    addition = theano.function([x, y], z)
+
+    # Execute
+    result = addition(10, 20)
+
+    print("Result:", result)
+
+except ImportError:
+    print("Theano is not installed.")
+    print("Install it separately if required.")
+
+# ============================================
+# END OF PRACTICAL
+# ============================================
+
+print("\nAll available practicals executed successfully!")
